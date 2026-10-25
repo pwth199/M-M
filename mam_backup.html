@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MẦM - Trao Gửi Yêu Thương – Ươm Mầm Sự Sống</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            50: '#f0fdf4',
+                            600: '#16a34a',
+                            800: '#1b4332',
+                            900: '#112c21',
+                        },
+                        kraft: {
+                            light: '#fdfbf7',
+                            DEFAULT: '#f4f1ea',
+                            dark: '#e3dcd0',
+                            border: '#d4cbb3'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f4f1ea;
+            color: #2c2a29;
+            font-family: 'Inter', sans-serif;
+        }
+        .paper-texture {
+            background-color: #fcfbfa;
+            background-image: radial-gradient(#d4cbb3 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+        }
+        .vintage-shadow {
+            box-shadow: 0 10px 25px -5px rgba(27, 67, 50, 0.08), 0 8px 10px -6px rgba(27, 67, 50, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-forest-800 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-forest-800 text-amber-100 text-xs py-2 px-4 text-center font-medium tracking-wide">
+        🌿 MẦM — Trao gửi yêu thương – Ươm mầm sự sống | Thiệp giấy hạt thủ công & Viên nén xơ dừa hữu cơ
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-kraft/95 backdrop-blur-md border-b border-kraft-border transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('shop')">
+                <div class="w-12 h-12 rounded-full bg-forest-800 flex items-center justify-center text-amber-100 font-serif text-2xl font-bold shadow-inner border border-amber-200/30">
+                    M
+                </div>
+                <div>
+                    <span class="font-serif text-2xl font-bold tracking-wider text-forest-900 block leading-none">MẦM</span>
+                    <span class="text-[10px] uppercase tracking-widest text-forest-800/80 font-semibold block mt-1">Trao gửi yêu thương</span>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="hidden lg:flex items-center space-x-1">
+                <button onclick="switchTab('shop')" id="nav-shop" class="px-4 py-2 rounded-full text-sm font-medium transition-all text-forest-900 bg-forest-800/10 font-semibold">
+                    <i class="fa-solid fa-store mr-2"></i> Cửa Hàng Xanh
+                </button>
+                <button onclick="switchTab('community')" id="nav-community" class="px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5">
+                    <i class="fa-solid fa-comments mr-2"></i> Khu Vườn Mầm
+                </button>
+                <button onclick="switchTab('gift-creator')" id="nav-gift-creator" class="px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5">
+                    <i class="fa-solid fa-qrcode mr-2"></i> Tạo Quà QR
+                </button>
+                <button onclick="checkAdminAccess()" id="nav-admin" class="px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5">
+                    <i class="fa-solid fa-shield-halved mr-2"></i> Quản Trị Admin
+                </button>
+            </nav>
+
+            <!-- Customer Google Login & Mobile Trigger -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openCart()" class="relative p-2.5 bg-white border border-kraft-border rounded-full shadow-sm hover:bg-gray-50 transition-all" title="Giỏ hàng">
+                    <i class="fa-solid fa-basket-shopping text-forest-800"></i>
+                    <span id="cart-count" class="hidden absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full items-center justify-center">0</span>
+                </button>
+                <div id="customer-auth-container">
+                    <button onclick="openCustomerLoginModal()" class="flex items-center space-x-2 bg-white border border-kraft-border px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-gray-50 transition-all">
+                        <i class="fa-solid fa-user text-forest-800"></i>
+                        <span id="customer-auth-text">Đăng nhập</span>
+                    </button>
+                </div>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-forest-900 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-kraft border-b border-kraft-border px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('shop'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-forest-900 bg-forest-800/10">
+                <i class="fa-solid fa-store mr-2"></i> Cửa Hàng Xanh
+            </button>
+            <button onclick="switchTab('community'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-forest-800/5">
+                <i class="fa-solid fa-comments mr-2"></i> Khu Vườn Mầm
+            </button>
+            <button onclick="switchTab('gift-creator'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-forest-800/5">
+                <i class="fa-solid fa-qrcode mr-2"></i> Tạo Quà QR
+            </button>
+            <button onclick="checkAdminAccess(); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-forest-800/5">
+                <i class="fa-solid fa-shield-halved mr-2"></i> Quản Trị Admin
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= TAB 1: SHOP / E-COMMERCE (CUSTOMER PORTAL) ================= -->
+        <section id="tab-shop" class="space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl bg-forest-900 text-amber-50 p-8 sm:p-12 overflow-hidden vintage-shadow">
+                <div class="absolute -right-10 -bottom-10 w-96 h-96 bg-forest-800/50 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="max-w-2xl relative z-10 space-y-4">
+                    <span class="inline-block bg-forest-800 text-amber-200 text-xs px-3 py-1 rounded-full uppercase tracking-widest font-semibold border border-amber-200/20">
+                        MẦM • Trao Gửi Yêu Thương – Ươm Mầm Sự Sống
+                    </span>
+                    <h1 class="font-serif text-3xl sm:text-5xl font-bold leading-tight">
+                        Không Gian Sản Phẩm Xanh Bền Vững
+                    </h1>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        Sản phẩm giấy hạt thủ công viền tua rua, thẻ bookmark tinh tế và viên nén xơ dừa hữu cơ — nơi mỗi lời chúc hóa thành mầm xanh.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        <button onclick="switchTab('gift-creator')" class="bg-amber-100 text-forest-900 px-6 py-3 rounded-full font-semibold text-sm shadow hover:bg-white transition-all transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2 text-forest-800"></i> Tạo Quà Tặng QR Ngay
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-kraft-border pb-4">
+                    <div>
+                        <h2 class="font-serif text-2xl font-bold text-forest-900">4 Sản Phẩm Cốt Lõi</h2>
+                        <p class="text-xs text-gray-600 mt-1">Chỉ số truy cập và đánh giá ban đầu bằng 0, tự động tích lũy tăng lên khi nhấp xem chi tiết.</p>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: COMMUNITY (KHU VƯỜN MẦM) ================= -->
+        <section id="tab-community" class="hidden space-y-8">
+            <div class="bg-gradient-to-r from-forest-900 to-forest-800 rounded-3xl p-8 text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 vintage-shadow">
+                <div class="space-y-2">
+                    <span class="bg-forest-600/50 text-amber-200 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold">Cộng Đồng Xanh Mầm</span>
+                    <h2 class="font-serif text-3xl font-bold">Khu Vườn Tri Ân Số</h2>
+                    <p class="text-gray-200 text-sm max-w-xl">Khách hàng đã đăng nhập Google có thể chia sẻ ảnh và nhật ký ươm mầm cây của mình.</p>
+                </div>
+                <button onclick="openPostModal()" class="bg-amber-100 text-forest-900 px-6 py-3 rounded-full font-semibold text-sm shadow-lg hover:bg-white transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-camera mr-2 text-forest-800"></i> Đăng Nhật Ký Mầm Cây
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="community-feed">
+                <!-- Posts injected here -->
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: GIFT & QR CREATOR ================= -->
+        <section id="tab-gift-creator" class="hidden max-w-3xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <span class="bg-forest-800/10 text-forest-800 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold">Trải Nghiệm Phygital</span>
+                <h2 class="font-serif text-3xl font-bold text-forest-900">Tạo Quà Tặng QR & Lời Chúc Số Hóa</h2>
+                <p class="text-sm text-gray-600">Nhập lời chúc và thông tin để tạo mã QR đính kèm thiệp giấy hạt.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-kraft-border vintage-shadow space-y-6 paper-texture">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Tên Người Nhận</label>
+                        <input type="text" id="gift-receiver" maxlength="40" placeholder="Ví dụ: Thầy Cô / Mẹ yêu / Bạn thân" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light focus:outline-none focus:ring-2 focus:ring-forest-800 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Dịp Tặng Quà</label>
+                        <select id="gift-occasion" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light focus:outline-none focus:ring-2 focus:ring-forest-800 text-sm">
+                            <option value="Tri ân 20/11">20/11 - Tri Ân Thầy Cô</option>
+                            <option value="Tri ân Cha Mẹ">Tri Ân Cha Mẹ</option>
+                            <option value="Cảm ơn Khách hàng">Cảm ơn Khách Hàng / Đối Tác</option>
+                            <option value="Sinh nhật xanh">Sinh Nhật Xanh</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Lời Chúc Gửi Gắm Từ Trái Tim</label>
+                    <textarea id="gift-message" rows="4" maxlength="200" placeholder="Viết những lời tri ân chân thành..." class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light focus:outline-none focus:ring-2 focus:ring-forest-800 text-sm"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Tên Người Gửi</label>
+                        <input type="text" id="gift-sender" maxlength="40" placeholder="Ví dụ: Tập thể lớp / Minh Anh" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light focus:outline-none focus:ring-2 focus:ring-forest-800 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Chất Liệu Thiệp</label>
+                        <select id="gift-theme" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light focus:outline-none focus:ring-2 focus:ring-forest-800 text-sm">
+                            <option value="ivory">Giấy Trắng Ngà Thơ Mộc (Chứa Hạt Giống)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="generateQRCodeGift()" class="w-full bg-forest-800 text-white py-3.5 rounded-xl font-semibold text-sm hover:bg-forest-900 transition-all shadow-md flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <span>Tạo Mã QR & Liên Kết Quà Tặng Ngay</span>
+                </button>
+            </div>
+
+            <!-- Generated Result Container -->
+            <div id="gift-result-card" class="hidden bg-forest-50 border border-forest-600/30 rounded-3xl p-6 sm:p-8 space-y-6 vintage-shadow text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-forest-800 text-white rounded-full mb-1">
+                    <i class="fa-solid fa-check text-xl"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-forest-900">Mã QR Quà Tặng Đã Sẵn Sàng!</h3>
+                <div class="bg-white p-4 rounded-2xl inline-block border border-kraft-border shadow-sm">
+                    <canvas id="gift-qr-canvas" class="mx-auto" style="width:240px;height:240px;image-rendering:pixelated" aria-label="Mã QR quà tặng"></canvas>
+                    <p class="text-[11px] text-gray-500 mt-2">Quét mã bằng camera điện thoại để mở thiệp số</p>
+                </div>
+                <p id="gift-qr-note" class="text-[11px] text-amber-700 hidden max-w-md mx-auto"></p>
+
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                    <button onclick="previewReceiverView()" class="bg-forest-800 text-white px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-forest-900 transition-all">
+                        <i class="fa-solid fa-eye mr-2"></i> Xem Trải Nghiệm Người Nhận
+                    </button>
+                    <button onclick="copyGiftLink()" class="bg-white border border-kraft-border text-gray-700 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 transition-all">
+                        <i class="fa-solid fa-copy mr-2"></i> Sao Chép Liên Kết
+                    </button>
+                    <button onclick="downloadGiftQR()" class="bg-white border border-kraft-border text-gray-700 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 transition-all">
+                        <i class="fa-solid fa-download mr-2"></i> Tải Mã QR (PNG)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: ADMIN MANAGEMENT ================= -->
+        <section id="tab-admin" class="hidden space-y-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-kraft-border vintage-shadow">
+                <div>
+                    <span class="bg-amber-100 text-forest-900 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold">Trang Chủ Sở Hữu (Admin Dashboard)</span>
+                    <h2 class="font-serif text-2xl font-bold text-forest-900 mt-1">Quản Lý Cửa Hàng & Thống Kê</h2>
+                    <p class="text-xs text-gray-600">Thêm mới, chỉnh sửa thông tin sản phẩm và theo dõi số liệu tích lũy cửa hàng.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="openAddProductModal()" class="bg-forest-800 text-white px-5 py-2.5 rounded-xl font-semibold text-xs hover:bg-forest-900 transition-all shadow flex items-center space-x-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Thêm Sản Phẩm Mới</span>
+                    </button>
+                    <button onclick="exportProducts()" title="Sao chép dữ liệu sản phẩm để dán vào file" class="bg-kraft text-gray-700 px-4 py-2.5 rounded-xl font-semibold text-xs hover:bg-kraft-dark transition-all border border-kraft-border">
+                        <i class="fa-solid fa-copy mr-1"></i> Xuất SP
+                    </button>
+                    <button onclick="resetProducts()" title="Xóa chỉnh sửa trên máy này, quay về danh sách trong file" class="bg-kraft text-gray-700 px-4 py-2.5 rounded-xl font-semibold text-xs hover:bg-kraft-dark transition-all border border-kraft-border">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Đặt lại
+                    </button>
+                    <button onclick="adminLogout()" class="bg-red-50 text-red-600 px-4 py-2.5 rounded-xl font-semibold text-xs hover:bg-red-100 transition-all border border-red-200">
+                        Thoát Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Store Stats Overview -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-kraft-border vintage-shadow">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tổng Sản Phẩm</p>
+                    <p class="font-serif text-3xl font-bold text-forest-900 mt-2" id="admin-total-products">4</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-kraft-border vintage-shadow">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tổng Lượt Xem Tích Lũy</p>
+                    <p class="font-serif text-3xl font-bold text-forest-900 mt-2" id="admin-total-views">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-kraft-border vintage-shadow">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tổng Đánh Giá Tích Lũy</p>
+                    <p class="font-serif text-3xl font-bold text-forest-900 mt-2" id="admin-total-ratings">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-kraft-border vintage-shadow">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tổng Đơn Hàng</p>
+                    <p class="font-serif text-3xl font-bold text-forest-900 mt-2" id="admin-total-orders">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-kraft-border vintage-shadow">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Doanh Thu (trừ đơn hủy)</p>
+                    <p class="font-serif text-2xl font-bold text-forest-900 mt-3" id="admin-revenue">0đ</p>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="font-serif text-xl font-bold text-forest-900"><i class="fa-solid fa-receipt mr-2"></i>Đơn Hàng Khách Đã Đặt <span class="text-xs font-sans font-medium text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full ml-2">● Cập nhật trực tiếp</span></h3>
+                <div class="bg-white rounded-2xl border border-kraft-border overflow-hidden vintage-shadow">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[760px]">
+                            <thead>
+                                <tr class="bg-kraft text-gray-700 text-xs uppercase tracking-wider border-b border-kraft-border">
+                                    <th class="p-4">Mã Đơn</th>
+                                    <th class="p-4">Khách Hàng</th>
+                                    <th class="p-4">Sản Phẩm</th>
+                                    <th class="p-4">Thanh Toán</th>
+                                    <th class="p-4">Trạng Thái</th>
+                                    <th class="p-4 text-right"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-order-table" class="divide-y divide-kraft-border text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="font-serif text-xl font-bold text-forest-900 pt-2"><i class="fa-solid fa-boxes-stacked mr-2"></i>Sản Phẩm</h3>
+            <div class="bg-white rounded-2xl border border-kraft-border overflow-hidden vintage-shadow">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-kraft text-gray-700 text-xs uppercase tracking-wider border-b border-kraft-border">
+                                <th class="p-4">Sản Phẩm</th>
+                                <th class="p-4">Giá Bán</th>
+                                <th class="p-4">Lượt Xem (Tích lũy)</th>
+                                <th class="p-4">Đánh Giá (Tích lũy)</th>
+                                <th class="p-4 text-right">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-product-table" class="divide-y divide-kraft-border text-sm">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= ADMIN PASSWORD MODAL ================= -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative border border-kraft-border vintage-shadow paper-texture space-y-6">
+            <button onclick="closeAdminLoginModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 rounded-full bg-forest-800 text-amber-100 flex items-center justify-center text-xl font-bold mx-auto border border-amber-200/30">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-forest-900">Xác Thực Quản Trị Admin</h3>
+                <p class="text-xs text-gray-600">Vui lòng nhập mã PIN quản trị để tiếp tục.</p>
+            </div>
+            <form onsubmit="handleAdminAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Mã PIN Admin</label>
+                    <input type="password" id="admin-passcode-input" required placeholder="Nhập mã PIN" autocomplete="off" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                    <p id="admin-error-msg" class="text-xs text-red-600 mt-1.5 hidden font-medium">Mã PIN không chính xác! Vui lòng thử lại.</p>
+                </div>
+                <button type="submit" class="w-full bg-forest-800 text-white py-3 rounded-xl font-semibold text-sm hover:bg-forest-900 transition-all shadow-md">
+                    Đăng Nhập Admin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= CUSTOMER LOGIN MODAL ================= -->
+    <div id="customer-login-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative border border-kraft-border vintage-shadow paper-texture space-y-6">
+            <button onclick="closeCustomerLoginModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 rounded-full bg-forest-800 text-amber-100 flex items-center justify-center text-xl font-bold mx-auto border border-amber-200/30">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-forest-900">Đăng Nhập Khách Hàng</h3>
+                <p class="text-xs text-gray-600">Nhập tên và email để đăng nhập, đăng bài và đánh giá sản phẩm.</p>
+            </div>
+            <button type="button" onclick="googleSimLogin()" class="w-full flex items-center justify-center space-x-2 bg-white border border-kraft-border py-3 rounded-xl text-sm font-semibold shadow-sm hover:bg-gray-50 transition-all">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="">
+                <span>Đăng nhập nhanh bằng Google (mô phỏng)</span>
+            </button>
+            <div class="flex items-center text-[11px] text-gray-400 uppercase tracking-wider"><span class="flex-1 border-t border-kraft-border"></span><span class="px-3">hoặc nhập thông tin</span><span class="flex-1 border-t border-kraft-border"></span></div>
+            <form onsubmit="handleCustomerLogin(event)" class="space-y-4">
+                <input type="text" id="login-name" required maxlength="40" placeholder="Họ và tên" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                <input type="email" id="login-email" required placeholder="Email" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                <button type="submit" class="w-full bg-forest-800 text-white py-3 rounded-xl font-semibold text-sm hover:bg-forest-900 transition-all shadow-md">Đăng Nhập</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= CART / CHECKOUT MODAL ================= -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 relative border border-kraft-border vintage-shadow paper-texture">
+            <button onclick="closeCart()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="cart-title" class="font-serif text-2xl font-bold text-forest-900 mb-4">Giỏ Hàng Của Bạn</h3>
+            <div id="cart-items" class="space-y-3"></div>
+            <div id="cart-checkout" class="hidden">
+                <div class="flex justify-between items-center border-t border-kraft-border mt-4 pt-4 text-sm">
+                    <span class="font-semibold text-gray-700">Tạm tính</span>
+                    <span id="cart-total" class="font-bold text-lg text-forest-900">0đ</span>
+                </div>
+                <p class="text-[11px] text-gray-500 mt-1">Phí vận chuyển (nếu có) sẽ được shop xác nhận khi liên hệ.</p>
+                <form onsubmit="submitOrder(event)" class="space-y-3 mt-4">
+                    <input type="text" id="order-name" required maxlength="60" placeholder="Họ và tên" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                    <input type="tel" id="order-phone" required maxlength="15" placeholder="Số điện thoại" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                    <input type="email" id="order-email" maxlength="80" placeholder="Email (không bắt buộc)" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                    <textarea id="order-address" required maxlength="250" rows="2" placeholder="Địa chỉ nhận hàng" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800"></textarea>
+                    <textarea id="order-note" maxlength="300" rows="2" placeholder="Ghi chú (lời chúc trên thiệp, giờ nhận hàng...)" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800"></textarea>
+                    <select id="order-payment" class="w-full px-4 py-3 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                        <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                        <option value="Chuyển khoản">Chuyển khoản ngân hàng (quét mã QR)</option>
+                    </select>
+                    <input type="text" id="order-website" tabindex="-1" autocomplete="off" class="hidden">
+                    <p id="order-error" class="text-xs text-red-600 font-medium hidden"></p>
+                    <button type="submit" id="order-submit" class="w-full bg-forest-800 text-white py-3 rounded-xl font-semibold text-sm hover:bg-forest-900 transition-all shadow-md">Đặt Hàng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PRODUCT DETAIL MODAL ================= -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative border border-kraft-border vintage-shadow paper-texture">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="modal-product-content" class="space-y-6">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ADD / EDIT PRODUCT MODAL (ADMIN) ================= -->
+    <div id="admin-product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 relative border border-kraft-border vintage-shadow">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="admin-modal-title" class="font-serif text-2xl font-bold text-forest-900 mb-6">Thêm Sản Phẩm Mới</h3>
+            <form id="admin-product-form" onsubmit="handleProductFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="edit-product-id">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Tên Sản Phẩm</label>
+                    <input type="text" id="form-name" required class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Giá Bán (VNĐ)</label>
+                        <input type="text" id="form-price" required placeholder="Ví dụ: 45.000đ" class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Link Hình Ảnh (URL)</label>
+                        <input type="url" id="form-image" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Mô Tả Sản Phẩm</label>
+                    <textarea id="form-desc" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800"></textarea>
+                </div>
+                <div class="pt-4 flex justify-end space-x-3">
+                    <button type="button" onclick="closeAdminModal()" class="px-5 py-2.5 rounded-xl border border-kraft-border text-sm font-medium hover:bg-gray-50">Hủy</button>
+                    <button type="submit" class="bg-forest-800 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-900">Lưu Sản Phẩm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= ADD COMMUNITY POST MODAL (REQUIRES GOOGLE LOGIN) ================= -->
+    <div id="post-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative border border-kraft-border vintage-shadow paper-texture">
+            <button onclick="closePostModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="font-serif text-2xl font-bold text-forest-900 mb-2">Đăng Nhật Ký Mầm Cây</h3>
+            <p class="text-xs text-gray-600 mb-6">Chia sẻ khoảnh khắc xé thiệp, đặt lên viên xơ dừa hoặc mầm cây lớn lên cùng cộng đồng.</p>
+            <form onsubmit="handlePostSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Giai Đoạn Hành Trình Xanh</label>
+                    <select id="post-stage" class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                        <option value="stage-1">🌱 Giai đoạn 1: Xé nhỏ thiệp & Đặt lên viên xơ dừa</option>
+                        <option value="stage-2">🌿 Giai đoạn 2: Phủ đất, tưới nước & Giữ ẩm</option>
+                        <option value="stage-3">🌳 Giai đoạn 3: Mầm xanh vươn lá tươi tắn</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Ảnh Thực Tế (chọn từ máy hoặc dán link)</label>
+                    <input type="file" id="post-file" accept="image/*" class="w-full mb-2 text-xs file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-forest-800 file:text-white file:text-xs file:font-semibold">
+                    <input type="url" id="post-image" placeholder="hoặc dán link ảnh https://..." class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">Caption / Chia Sẻ Của Bạn</label>
+                    <textarea id="post-caption" rows="3" required placeholder="Nhắn gửi đôi điều..." class="w-full px-4 py-2.5 rounded-xl border border-kraft-border bg-kraft-light text-sm focus:outline-none focus:ring-2 focus:ring-forest-800"></textarea>
+                </div>
+                <div class="pt-4 flex justify-end space-x-3">
+                    <button type="button" onclick="closePostModal()" class="px-5 py-2.5 rounded-xl border border-kraft-border text-sm font-medium hover:bg-gray-50">Hủy</button>
+                    <button type="submit" class="bg-forest-800 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-900">Đăng Bài Viết</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= RECEIVER PREVIEW MODAL WITH PLANTING GUIDE ================= -->
+    <div id="receiver-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-10 relative border border-kraft-border vintage-shadow paper-texture space-y-6">
+            <button onclick="closeReceiverModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-full bg-forest-800 text-amber-100 flex items-center justify-center text-2xl font-serif font-bold mx-auto border-2 border-amber-200">
+                    M
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-widest text-forest-800 block">Thiệp Giấy Hạt & Lời Chúc Số Hóa</span>
+                <h3 class="font-serif text-3xl font-bold text-forest-900" id="preview-occasion">Tri Ân 20/11</h3>
+            </div>
+            
+            <div class="bg-kraft p-6 rounded-2xl border border-kraft-border/60 text-center space-y-4">
+                <p class="text-xs uppercase font-semibold tracking-wider text-forest-800">Gửi tặng: <span id="preview-receiver" class="text-gray-900 font-bold">Cô Thảo</span></p>
+                <div class="font-serif italic text-gray-700 text-base leading-relaxed px-4" id="preview-message">
+                    "Cảm ơn cô vì đã luôn kiên nhẫn dìu dắt chúng em. Chúc cô luôn mạnh khỏe và hạnh phúc!"
+                </div>
+                <p class="text-xs text-right text-gray-600 font-medium pt-2">— Từ: <span id="preview-sender" class="font-bold">Tập thể lớp</span> —</p>
+            </div>
+
+            <!-- Planting Guide -->
+            <div class="bg-forest-50 p-6 rounded-2xl border border-forest-600/30 space-y-4">
+                <h4 class="font-serif text-lg font-bold text-forest-900 text-center">🌿 Hướng Dẫn Trồng Mầm Từ Thiệp Giấy Hạt</h4>
+                <div class="space-y-3 text-xs text-gray-700">
+                    <div class="flex items-start space-x-3 bg-white p-3 rounded-xl border border-kraft-border">
+                        <span class="w-6 h-6 rounded-full bg-forest-800 text-white font-bold flex items-center justify-center shrink-0">1</span>
+                        <p><strong>Xé nhỏ thiệp:</strong> Sau khi đọc lời chúc tri ân, xé tấm thiệp giấy hạt thành các mảnh nhỏ vừa phải.</p>
+                    </div>
+                    <div class="flex items-start space-x-3 bg-white p-3 rounded-xl border border-kraft-border">
+                        <span class="w-6 h-6 rounded-full bg-forest-800 text-white font-bold flex items-center justify-center shrink-0">2</span>
+                        <p><strong>Đặt lên viên xơ dừa:</strong> Ngâm viên nén xơ dừa cho nở lớn, sau đó xếp các mảnh giấy xé lên bề mặt viên xơ dừa.</p>
+                    </div>
+                    <div class="flex items-start space-x-3 bg-white p-3 rounded-xl border border-kraft-border">
+                        <span class="w-6 h-6 rounded-full bg-forest-800 text-white font-bold flex items-center justify-center shrink-0">3</span>
+                        <p><strong>Tưới nước & giữ ẩm:</strong> Phủ một lớp đất/xơ dừa mỏng lên trên, tưới nước giữ ẩm đều đặn và chờ đón mầm xanh vươn lên!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-forest-900 text-amber-100 mt-20 border-t border-forest-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-forest-800 flex items-center justify-center text-amber-100 font-serif font-bold border border-amber-200/30">M</div>
+                        <span class="font-serif text-xl font-bold tracking-wider">MẦM</span>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        "Trao gửi yêu thương – Ươm mầm sự sống". Thiệp giấy hạt thủ công kết hợp viên nén xơ dừa hữu cơ.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-3 uppercase tracking-wider text-amber-200">Danh Mục Xanh</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><a href="#" onclick="switchTab('shop')" class="hover:text-white transition-all">Thiệp Giấy Hạt</a></li>
+                        <li><a href="#" onclick="switchTab('shop')" class="hover:text-white transition-all">Thẻ Bookmark & Tag</a></li>
+                        <li><a href="#" onclick="switchTab('shop')" class="hover:text-white transition-all">Viên Nén Xơ Dừa</a></li>
+                        <li><a href="#" onclick="switchTab('shop')" class="hover:text-white transition-all">Set Quà Trọn Bộ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-3 uppercase tracking-wider text-amber-200">Trải Nghiệm MẦM</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><a href="#" onclick="switchTab('community')" class="hover:text-white transition-all">Khu Vườn Mầm Cộng Đồng</a></li>
+                        <li><a href="#" onclick="switchTab('gift-creator')" class="hover:text-white transition-all">Tạo Mã QR Lời Chúc</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-3 uppercase tracking-wider text-amber-200">Kết Nối Với Chúng Tôi</h4>
+                    <p class="text-xs text-gray-300 mb-3">Đồng hành cùng lối sống xanh bền vững.</p>
+                </div>
+            </div>
+            <div class="border-t border-forest-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-4">
+                <p>&copy; 2026 MẦM (Green Gratitude). All rights reserved.</p>
+                <div class="flex items-center space-x-2 bg-forest-800/60 px-4 py-2 rounded-full border border-forest-700">
+                    <i class="fa-solid fa-eye text-amber-200"></i>
+                    <span>🌿 Tổng số lượt ghé thăm khu vườn: <strong id="visit-counter" class="text-amber-100">0</strong> lượt</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // =====================================================================
+        // CẤU HÌNH CỬA HÀNG — chỉ cần sửa phần này
+        // =====================================================================
+        const CONFIG = {
+            // Link Web App của Google Apps Script (xem file google-apps-script.gs). Để trống nếu chưa có.
+            ORDER_ENDPOINT: "",
+            // Email shop: nếu chưa có ORDER_ENDPOINT, đơn hàng sẽ mở sẵn email gửi về địa chỉ này.
+            SHOP_EMAIL: "",
+            // Địa chỉ trang web sau khi đăng (VD: "https://mam.vn/"). Dùng để mã QR quà tặng mở đúng trang.
+            // Để trống = dùng địa chỉ trang hiện tại.
+            SITE_URL: "",
+            // Tài khoản nhận chuyển khoản (để tạo mã VietQR tự điền số tiền). Để trống = tắt mã QR thanh toán.
+            // BANK_BIN: mã ngân hàng 6 số, VD: Vietcombank 970436, MB 970422, Techcombank 970407, BIDV 970418,
+            //           VietinBank 970415, Agribank 970405, ACB 970416, VPBank 970432, TPBank 970423, Sacombank 970403.
+            BANK_BIN: "",
+            BANK_ACCOUNT: "",
+            BANK_NAME: ""
+        };
+
+/* Bộ tạo mã QR (chế độ byte, mức sửa lỗi L/M) — chạy hoàn toàn trên trình duyệt, không cần thư viện ngoài */
+const QR = (function () {
+    const ECC_PER_BLOCK = {
+        L: [-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],
+        M: [-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28]
+    };
+    const NUM_BLOCKS = {
+        L: [-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25],
+        M: [-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,17,18,20,21,23,25,26,28,29,31,33,35,37,38,40,43,45,47,49]
+    };
+    const FORMAT_BITS = { L: 1, M: 0 };
+
+    function rawModules(ver) {
+        let r = (16 * ver + 128) * ver + 64;
+        if (ver >= 2) {
+            const n = Math.floor(ver / 7) + 2;
+            r -= (25 * n - 10) * n - 55;
+            if (ver >= 7) r -= 36;
+        }
+        return r;
+    }
+    function dataCodewords(ver, ecl) {
+        return Math.floor(rawModules(ver) / 8) - ECC_PER_BLOCK[ecl][ver] * NUM_BLOCKS[ecl][ver];
+    }
+    function gfMul(x, y) {
+        let z = 0;
+        for (let i = 7; i >= 0; i--) {
+            z = (z << 1) ^ ((z >>> 7) * 0x11D);
+            z ^= ((y >>> i) & 1) * x;
+        }
+        return z;
+    }
+    function rsDivisor(degree) {
+        const result = new Array(degree).fill(0);
+        result[degree - 1] = 1;
+        let root = 1;
+        for (let i = 0; i < degree; i++) {
+            for (let j = 0; j < degree; j++) {
+                result[j] = gfMul(result[j], root);
+                if (j + 1 < degree) result[j] ^= result[j + 1];
+            }
+            root = gfMul(root, 0x02);
+        }
+        return result;
+    }
+    function rsRemainder(data, divisor) {
+        const result = divisor.map(() => 0);
+        for (const b of data) {
+            const factor = b ^ result.shift();
+            result.push(0);
+            divisor.forEach((coef, i) => { result[i] ^= gfMul(coef, factor); });
+        }
+        return result;
+    }
+    function addEccAndInterleave(data, ver, ecl) {
+        const numBlocks = NUM_BLOCKS[ecl][ver];
+        const blockEccLen = ECC_PER_BLOCK[ecl][ver];
+        const rawCodewords = Math.floor(rawModules(ver) / 8);
+        const numShort = numBlocks - rawCodewords % numBlocks;
+        const shortLen = Math.floor(rawCodewords / numBlocks);
+        const blocks = [];
+        const divisor = rsDivisor(blockEccLen);
+        for (let i = 0, k = 0; i < numBlocks; i++) {
+            const dat = data.slice(k, k + shortLen - blockEccLen + (i < numShort ? 0 : 1));
+            k += dat.length;
+            const ecc = rsRemainder(dat, divisor);
+            if (i < numShort) dat.push(0);
+            blocks.push(dat.concat(ecc));
+        }
+        const result = [];
+        for (let i = 0; i < blocks[0].length; i++) {
+            blocks.forEach((block, j) => {
+                if (i !== shortLen - blockEccLen || j >= numShort) result.push(block[i]);
+            });
+        }
+        return result;
+    }
+
+    function make(text, ecl) {
+        ecl = ecl === 'M' ? 'M' : 'L';
+        const bytes = Array.from(new TextEncoder().encode(text));
+        let ver = 0;
+        for (let v = 1; v <= 40; v++) {
+            const ccbits = v <= 9 ? 8 : 16;
+            if (4 + ccbits + 8 * bytes.length <= dataCodewords(v, ecl) * 8) { ver = v; break; }
+        }
+        if (!ver) throw new Error('Nội dung quá dài để tạo mã QR');
+
+        const bits = [];
+        const put = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+        put(0x4, 4);
+        put(bytes.length, ver <= 9 ? 8 : 16);
+        bytes.forEach(b => put(b, 8));
+        const cap = dataCodewords(ver, ecl) * 8;
+        put(0, Math.min(4, cap - bits.length));
+        put(0, (8 - bits.length % 8) % 8);
+        for (let pad = 0xEC; bits.length < cap; pad ^= 0xEC ^ 0x11) put(pad, 8);
+        const data = new Array(bits.length / 8).fill(0);
+        bits.forEach((b, i) => { data[i >>> 3] |= b << (7 - (i & 7)); });
+        const codewords = addEccAndInterleave(data, ver, ecl);
+
+        const size = ver * 4 + 17;
+        const modules = Array.from({ length: size }, () => new Array(size).fill(false));
+        const isFn = Array.from({ length: size }, () => new Array(size).fill(false));
+        const setFn = (x, y, dark) => { modules[y][x] = dark; isFn[y][x] = true; };
+
+        for (let i = 0; i < size; i++) { setFn(6, i, i % 2 === 0); setFn(i, 6, i % 2 === 0); }
+        const finder = (cx, cy) => {
+            for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+                const dist = Math.max(Math.abs(dx), Math.abs(dy));
+                const xx = cx + dx, yy = cy + dy;
+                if (xx >= 0 && xx < size && yy >= 0 && yy < size) setFn(xx, yy, dist !== 2 && dist !== 4);
+            }
+        };
+        finder(3, 3); finder(size - 4, 3); finder(3, size - 4);
+        let align = [];
+        if (ver > 1) {
+            const n = Math.floor(ver / 7) + 2;
+            const step = ver === 32 ? 26 : Math.ceil((ver * 4 + 4) / (n * 2 - 2)) * 2;
+            align = [6];
+            for (let pos = size - 7; align.length < n; pos -= step) align.splice(1, 0, pos);
+        }
+        for (let i = 0; i < align.length; i++) for (let j = 0; j < align.length; j++) {
+            if ((i === 0 && j === 0) || (i === 0 && j === align.length - 1) || (i === align.length - 1 && j === 0)) continue;
+            for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++)
+                setFn(align[i] + dx, align[j] + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+        }
+        const bit = (x, i) => ((x >>> i) & 1) !== 0;
+        const drawFormat = (mask) => {
+            const d = (FORMAT_BITS[ecl] << 3) | mask;
+            let rem = d;
+            for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+            const b = ((d << 10) | rem) ^ 0x5412;
+            for (let i = 0; i <= 5; i++) setFn(8, i, bit(b, i));
+            setFn(8, 7, bit(b, 6)); setFn(8, 8, bit(b, 7)); setFn(7, 8, bit(b, 8));
+            for (let i = 9; i < 15; i++) setFn(14 - i, 8, bit(b, i));
+            for (let i = 0; i < 8; i++) setFn(size - 1 - i, 8, bit(b, i));
+            for (let i = 8; i < 15; i++) setFn(8, size - 15 + i, bit(b, i));
+            setFn(8, size - 8, true);
+        };
+        drawFormat(0);
+        if (ver >= 7) {
+            let rem = ver;
+            for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1F25);
+            const b = (ver << 12) | rem;
+            for (let i = 0; i < 18; i++) {
+                const a = size - 11 + i % 3, c = Math.floor(i / 3);
+                setFn(a, c, bit(b, i)); setFn(c, a, bit(b, i));
+            }
+        }
+        let k = 0;
+        for (let right = size - 1; right >= 1; right -= 2) {
+            if (right === 6) right = 5;
+            for (let vert = 0; vert < size; vert++) for (let j = 0; j < 2; j++) {
+                const x = right - j;
+                const y = ((right + 1) & 2) === 0 ? size - 1 - vert : vert;
+                if (!isFn[y][x] && k < codewords.length * 8) {
+                    modules[y][x] = bit(codewords[k >>> 3], 7 - (k & 7));
+                    k++;
+                }
+            }
+        }
+        const maskFn = [
+            (x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x, y) => x % 3 === 0,
+            (x, y) => (x + y) % 3 === 0, (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0,
+            (x, y) => x * y % 2 + x * y % 3 === 0, (x, y) => (x * y % 2 + x * y % 3) % 2 === 0,
+            (x, y) => ((x + y) % 2 + x * y % 3) % 2 === 0
+        ];
+        const applyMask = (m) => {
+            for (let y = 0; y < size; y++) for (let x = 0; x < size; x++)
+                if (!isFn[y][x] && maskFn[m](x, y)) modules[y][x] = !modules[y][x];
+        };
+        const penalty = () => {
+            let p = 0, dark = 0;
+            const line = (get) => {
+                for (let a = 0; a < size; a++) {
+                    let run = 1;
+                    for (let b = 1; b < size; b++) {
+                        if (get(a, b) === get(a, b - 1)) { run++; if (run === 5) p += 3; else if (run > 5) p++; }
+                        else run = 1;
+                    }
+                }
+            };
+            line((a, b) => modules[a][b]);
+            line((a, b) => modules[b][a]);
+            for (let y = 0; y < size - 1; y++) for (let x = 0; x < size - 1; x++) {
+                const c = modules[y][x];
+                if (c === modules[y][x + 1] && c === modules[y + 1][x] && c === modules[y + 1][x + 1]) p += 3;
+            }
+            for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (modules[y][x]) dark++;
+            const total = size * size;
+            p += Math.floor(Math.abs(dark * 20 - total * 10) / total) * 10;
+            return p;
+        };
+        let best = 0, bestP = Infinity;
+        for (let m = 0; m < 8; m++) {
+            applyMask(m); drawFormat(m);
+            const p = penalty();
+            if (p < bestP) { best = m; bestP = p; }
+            applyMask(m);
+        }
+        applyMask(best); drawFormat(best);
+        return { size, version: ver, get: (x, y) => modules[y][x] };
+    }
+
+    function draw(canvas, text, opts) {
+        opts = opts || {};
+        const qr = make(text, opts.ecl);
+        const quiet = 4;
+        const px = opts.size || 240;
+        const scale = Math.max(2, Math.floor(px / (qr.size + quiet * 2)));
+        const dim = (qr.size + quiet * 2) * scale;
+        canvas.width = dim; canvas.height = dim;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, dim, dim);
+        ctx.fillStyle = '#112c21';
+        for (let y = 0; y < qr.size; y++) for (let x = 0; x < qr.size; x++)
+            if (qr.get(x, y)) ctx.fillRect((x + quiet) * scale, (y + quiet) * scale, scale, scale);
+        return qr;
+    }
+    return { make, draw };
+})();
+
+        // --- 4 CORE PRODUCTS WITH INITIAL 0 VIEWS & RATINGS ---
+        let products = [
+            {
+                id: 1,
+                name: "Thiệp Giấy Hạt & Tri Ân",
+                price: "45.000đ",
+                image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+                desc: "Thiệp thủ công từ giấy trắng ngà viền tua rua thô mộc chứa hạt giống hoa, kết hợp mã QR số hóa.",
+                views: 0,
+                ratings: 0
+            },
+            {
+                id: 2,
+                name: "Thẻ Bookmark & Tag Đính Kèm",
+                price: "35.000đ",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80",
+                desc: "Thẻ kẹp sách và tag giấy hạt đính kèm dây thừng đay mộc mạc, giúp lưu giữ kỷ vật lâu dài.",
+                views: 0,
+                ratings: 0
+            },
+            {
+                id: 3,
+                name: "Viên Nén Xơ Dừa Sinh Học",
+                price: "15.000đ",
+                image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=600&q=80",
+                desc: "Giá thể xơ dừa nén hữu cơ chuyên dụng để đặt các mảnh thiệp xé nhỏ lên trên và ươm mầm.",
+                views: 0,
+                ratings: 0
+            },
+            {
+                id: 4,
+                name: "Set Quà Tặng Hành Trình Xanh",
+                price: "120.000đ",
+                image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+                desc: "Trọn bộ hộp quà gồm thiệp giấy hạt, viên nén xơ dừa và tag đính kèm chuẩn bộ ươm mầm xanh.",
+                views: 0,
+                ratings: 0
+            }
+        ];
+
+        let posts = [
+            {
+                id: 1,
+                author: "Nguyễn Thảo Nguyên",
+                avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+                stage: "🌱 Giai đoạn 1: Xé nhỏ thiệp & Đặt lên viên xơ dừa",
+                stageKey: "stage-1",
+                image: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&q=80",
+                caption: "Đã đọc xong lời chúc và tiến hành xé nhỏ tấm thiệp trắng ngà đặt lên viên nén xơ dừa đã ngâm nở!",
+                poem: "Vùi chút chân tình vào lòng đất ấm... Giống như những khởi đầu chân thành, tình cảm cần thời gian bén rễ sâu.",
+                likes: 12
+            }
+        ];
+
+        let orders = [];
+
+        function saveData() {
+            try {
+                localStorage.setItem('mam_products', JSON.stringify(products));
+                localStorage.setItem('mam_posts', JSON.stringify(posts));
+                localStorage.setItem('mam_orders', JSON.stringify(orders));
+            } catch (err) {
+                if (err && err.name === 'QuotaExceededError') alert('Bộ nhớ trình duyệt đã đầy. Hãy xóa bớt bài đăng có ảnh hoặc đơn hàng cũ.');
+            }
+        }
+        function loadData() {
+            try {
+                const pr = localStorage.getItem('mam_products');
+                const po = localStorage.getItem('mam_posts');
+                if (pr) products = JSON.parse(pr);
+                if (po) posts = JSON.parse(po);
+                const od = localStorage.getItem('mam_orders');
+                if (od) orders = JSON.parse(od);
+            } catch (err) {}
+        }
+
+        let customerUser = null;
+        let isAdminLoggedIn = false;
+        let visitCount = 0;
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            loadData();
+            window.addEventListener('storage', (ev) => {   // cập nhật tức thì khi có đơn mới từ tab khác
+                if (ev.key === 'mam_orders') { try { orders = JSON.parse(ev.newValue || '[]'); } catch (x) {} renderAdminOrders(); updateAdminStats(); }
+            });
+            try { if (sessionStorage.getItem('mam_admin') === '1') isAdminLoggedIn = true; } catch (err) {}
+            renderProducts();
+            renderAdminTable();
+            renderCommunityFeed();
+            updateCartBadge();
+            openGiftFromHash();
+            try {
+                const saved = localStorage.getItem('mam_customer');
+                if (saved) { customerUser = JSON.parse(saved); renderCustomerAuth(); }
+            } catch (err) {}
+            updateVisitCounter();
+        };
+
+        function updateVisitCounter() {
+            let n = 0;
+            try {
+                n = parseInt(localStorage.getItem('mam_visits') || '0', 10);
+                if (!sessionStorage.getItem('mam_counted')) {
+                    n += 1;
+                    localStorage.setItem('mam_visits', n);
+                    sessionStorage.setItem('mam_counted', '1');
+                }
+            } catch (err) { n = 1; }
+            visitCount = n;
+            document.getElementById('visit-counter').innerText = visitCount.toLocaleString();
+        }
+
+        // --- TAB SWITCHING ---
+        function switchTab(tabId) {
+            document.getElementById('tab-shop').classList.add('hidden');
+            document.getElementById('tab-community').classList.add('hidden');
+            document.getElementById('tab-gift-creator').classList.add('hidden');
+            document.getElementById('tab-admin').classList.add('hidden');
+
+            document.getElementById('nav-shop').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5";
+            document.getElementById('nav-community').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5";
+            document.getElementById('nav-gift-creator').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5";
+            document.getElementById('nav-admin').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-700 hover:text-forest-900 hover:bg-forest-800/5";
+
+            if (tabId === 'shop') {
+                document.getElementById('tab-shop').classList.remove('hidden');
+                document.getElementById('nav-shop').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-forest-900 bg-forest-800/10 font-semibold";
+            } else if (tabId === 'community') {
+                document.getElementById('tab-community').classList.remove('hidden');
+                document.getElementById('nav-community').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-forest-900 bg-forest-800/10 font-semibold";
+            } else if (tabId === 'gift-creator') {
+                document.getElementById('tab-gift-creator').classList.remove('hidden');
+                document.getElementById('nav-gift-creator').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-forest-900 bg-forest-800/10 font-semibold";
+            } else if (tabId === 'admin') {
+                if (!isAdminLoggedIn) {
+                    openAdminLoginModal();
+                    return;
+                }
+                document.getElementById('tab-admin').classList.remove('hidden');
+                document.getElementById('nav-admin').className = "px-4 py-2 rounded-full text-sm font-medium transition-all text-forest-900 bg-forest-800/10 font-semibold";
+                updateAdminStats();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- CUSTOMER LOGIN (lưu trong trình duyệt) ---
+        let pendingAfterLogin = null;
+
+        function esc(str) {
+            return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+        function renderCustomerAuth() {
+            const box = document.getElementById('customer-auth-container');
+            if (customerUser) {
+                box.innerHTML = `
+                    <div class="flex items-center space-x-2 bg-white border border-kraft-border px-3 py-1.5 rounded-full shadow-sm">
+                        <img src="${esc(customerUser.avatar)}" class="w-7 h-7 rounded-full object-cover" alt="">
+                        <span class="text-xs font-semibold text-gray-800 hidden sm:inline">${esc(customerUser.name)}</span>
+                        <button onclick="customerLogout()" title="Đăng xuất" class="text-gray-400 hover:text-red-500 ml-1 text-xs"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    </div>`;
+            } else {
+                box.innerHTML = `
+                    <button onclick="openCustomerLoginModal()" class="flex items-center space-x-2 bg-white border border-kraft-border px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-gray-50 transition-all">
+                        <i class="fa-solid fa-user text-forest-800"></i>
+                        <span>Đăng nhập</span>
+                    </button>`;
+            }
+        }
+
+        function openCustomerLoginModal(after) {
+            pendingAfterLogin = typeof after === 'function' ? after : null;
+            const m = document.getElementById('customer-login-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeCustomerLoginModal() {
+            const m = document.getElementById('customer-login-modal');
+            m.classList.remove('flex');
+            m.classList.add('hidden');
+            pendingAfterLogin = null;
+        }
+
+        function handleCustomerLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('login-name').value.trim();
+            const email = document.getElementById('login-email').value.trim();
+            customerUser = {
+                name, email,
+                avatar: 'https://ui-avatars.com/api/?background=1b4332&color=fef3c7&name=' + encodeURIComponent(name)
+            };
+            try { localStorage.setItem('mam_customer', JSON.stringify(customerUser)); } catch (err) {}
+            const next = pendingAfterLogin;
+            closeCustomerLoginModal();
+            renderCustomerAuth();
+            if (next) next();
+        }
+
+        function googleSimLogin() {
+            // Mô phỏng đăng nhập Google: không kết nối tới Google thật
+            customerUser = {
+                name: 'Người dùng Google',
+                email: 'nguoidung@gmail.com',
+                avatar: 'https://ui-avatars.com/api/?background=1b4332&color=fef3c7&name=G'
+            };
+            try { localStorage.setItem('mam_customer', JSON.stringify(customerUser)); } catch (err) {}
+            const next = pendingAfterLogin;
+            closeCustomerLoginModal();
+            renderCustomerAuth();
+            if (next) next();
+        }
+
+        function customerLogout() {
+            customerUser = null;
+            try { localStorage.removeItem('mam_customer'); } catch (err) {}
+            renderCustomerAuth();
+        }
+
+        function rateProduct(id) {
+            if (!customerUser) {
+                closeProductModal();
+                openCustomerLoginModal(() => openProductModal(id, true));
+                return;
+            }
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+            p.ratings += 1;
+            saveData();
+            renderProducts();
+            renderAdminTable();
+            openProductModal(id, true);
+        }
+
+
+        // --- ADMIN SECURITY & AUTHENTICATION ---
+        function checkAdminAccess() {
+            if (isAdminLoggedIn) {
+                switchTab('admin');
+            } else {
+                openAdminLoginModal();
+            }
+        }
+
+        function openAdminLoginModal() {
+            document.getElementById('admin-passcode-input').value = "";
+            document.getElementById('admin-error-msg').classList.add('hidden');
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+            document.getElementById('admin-login-modal').classList.add('flex');
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.remove('flex');
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        }
+
+        const ADMIN_HASH = "9111efd1bca84409fd46bb3d8ff9696f011efd0fad7693d46a808fce522deb36";
+        async function sha256(text) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function handleAdminAuth(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-passcode-input').value;
+            let ok = false;
+            try { ok = (await sha256(pass)) === ADMIN_HASH; } catch (err) { ok = false; }
+            if (ok) {
+                isAdminLoggedIn = true;
+                try { sessionStorage.setItem('mam_admin', '1'); } catch (err) {}
+                closeAdminLoginModal();
+                switchTab('admin');
+            } else {
+                document.getElementById('admin-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            try { sessionStorage.removeItem('mam_admin'); } catch (err) {}
+            switchTab('shop');
+        }
+
+
+        // --- E-COMMERCE RENDER & METRICS ---
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = "";
+
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-kraft-border overflow-hidden vintage-shadow flex flex-col justify-between group transition-all hover:-translate-y-1">
+                        <div>
+                            <div class="relative overflow-hidden h-60 bg-gray-100">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                            </div>
+                            <div class="p-6 space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-serif text-lg font-bold text-forest-900 leading-snug">${p.name}</h3>
+                                    <span class="text-xs text-amber-700 font-semibold bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200/40">${p.price}</span>
+                                </div>
+                                <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed">${p.desc}</p>
+                                <div class="flex items-center justify-between text-[11px] text-gray-500 pt-1 border-t border-kraft-border/40">
+                                    <span>👁️ ${p.views} lượt xem</span>
+                                    <span>⭐ ${p.ratings} đánh giá</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 grid grid-cols-2 gap-2">
+                            <button onclick="buyNow(${p.id})" class="col-span-2 bg-amber-700 hover:bg-amber-800 text-white py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm">
+                                <i class="fa-solid fa-bolt mr-1"></i> Mua ngay
+                            </button>
+                            <button onclick="openProductModal(${p.id})" class="bg-kraft hover:bg-kraft-dark text-forest-900 py-2.5 rounded-xl text-xs font-semibold transition-all border border-kraft-border">
+                                Xem Chi Tiết
+                            </button>
+                            <button onclick="addToCart(${p.id})" class="bg-forest-800 hover:bg-forest-900 text-white py-2.5 rounded-xl text-xs font-semibold transition-all">
+                                <i class="fa-solid fa-cart-plus mr-1"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Product Detail Modal with Cumulative Metrics Increment
+        function openProductModal(id, skipView) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            if (!skipView) { p.views += 1; saveData(); }
+            renderProducts();
+            renderAdminTable();
+
+            document.getElementById('modal-product-content').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <img src="${p.image}" class="w-full h-72 object-cover rounded-2xl border border-kraft-border">
+                    <div class="space-y-4">
+                        <span class="bg-forest-800/10 text-forest-800 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">
+                            Sản Phẩm MẦM
+                        </span>
+                        <h2 class="font-serif text-2xl font-bold text-forest-900">${p.name}</h2>
+                        <p class="text-xl font-bold text-amber-800">${p.price}</p>
+                        <p class="text-xs text-gray-600 leading-relaxed">${p.desc}</p>
+                        <div class="flex items-center space-x-4 text-xs text-gray-600 font-medium bg-kraft p-3 rounded-xl border border-kraft-border">
+                            <span>👁️ Lượt xem: <strong>${p.views}</strong></span>
+                            <span>⭐ Đánh giá: <strong>${p.ratings}</strong></span>
+                        </div>
+                        <button onclick="closeProductModal(); buyNow(${p.id});" class="w-full bg-amber-700 text-white py-3 rounded-xl text-xs font-bold hover:bg-amber-800 transition-all shadow">
+                            <i class="fa-solid fa-bolt mr-1"></i> Mua ngay
+                        </button>
+                        <button onclick="addToCart(${p.id}); closeProductModal();" class="w-full bg-forest-800 text-white py-3 rounded-xl text-xs font-semibold hover:bg-forest-900 transition-all shadow">
+                            <i class="fa-solid fa-cart-plus mr-1"></i> Thêm vào giỏ hàng
+                        </button>
+                        <button onclick="rateProduct(${p.id})" class="w-full bg-amber-50 text-amber-800 border border-amber-200 py-3 rounded-xl text-xs font-semibold hover:bg-amber-100 transition-all">
+                            ⭐ Đánh giá sản phẩm này
+                        </button>
+                        <button onclick="closeProductModal(); switchTab('gift-creator');" class="w-full bg-forest-800 text-white py-3 rounded-xl text-xs font-semibold hover:bg-forest-900 transition-all shadow">
+                            Tạo Quà Tặng QR Ngay
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.getElementById('product-modal').classList.add('flex');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.remove('flex');
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+
+        // --- ADMIN MANAGEMENT LOGIC ---
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-product-table');
+            tbody.innerHTML = "";
+
+            products.forEach(p => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-kraft-light/50 transition-all">
+                        <td class="p-4 flex items-center space-x-3">
+                            <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover border border-kraft-border">
+                            <div>
+                                <p class="font-semibold text-gray-900">${p.name}</p>
+                                <span class="text-[11px] text-gray-500">ID: #${p.id}</span>
+                            </div>
+                        </td>
+                        <td class="p-4 font-bold text-forest-900">${p.price}</td>
+                        <td class="p-4 text-gray-600 font-medium">${p.views} lượt</td>
+                        <td class="p-4 text-gray-600 font-medium">${p.ratings} đánh giá</td>
+                        <td class="p-4 text-right space-x-2">
+                            <button onclick="openEditProductModal(${p.id})" class="p-2 bg-kraft hover:bg-kraft-dark text-gray-700 rounded-lg text-xs transition-all"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs transition-all"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            updateAdminStats();
+        }
+
+        function updateAdminStats() {
+            document.getElementById('admin-total-products').innerText = products.length;
+            const totalViews = products.reduce((sum, p) => sum + p.views, 0);
+            const totalRatings = products.reduce((sum, p) => sum + p.ratings, 0);
+            document.getElementById('admin-total-views').innerText = totalViews;
+            document.getElementById('admin-total-ratings').innerText = totalRatings;
+            renderAdminOrders();
+        }
+
+        function openAddProductModal() {
+            document.getElementById('admin-modal-title').innerText = "Thêm Sản Phẩm Mới";
+            document.getElementById('admin-product-form').reset();
+            document.getElementById('edit-product-id').value = "";
+            document.getElementById('admin-product-modal').classList.remove('hidden');
+            document.getElementById('admin-product-modal').classList.add('flex');
+        }
+
+        function openEditProductModal(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('admin-modal-title').innerText = "Chỉnh Sửa Sản Phẩm";
+            document.getElementById('edit-product-id').value = p.id;
+            document.getElementById('form-name').value = p.name;
+            document.getElementById('form-price').value = p.price;
+            document.getElementById('form-image').value = p.image;
+            document.getElementById('form-desc').value = p.desc;
+
+            document.getElementById('admin-product-modal').classList.remove('hidden');
+            document.getElementById('admin-product-modal').classList.add('flex');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-product-modal').classList.remove('flex');
+            document.getElementById('admin-product-modal').classList.add('hidden');
+        }
+
+        function handleProductFormSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('edit-product-id').value;
+            const name = document.getElementById('form-name').value;
+            const price = document.getElementById('form-price').value;
+            const image = document.getElementById('form-image').value;
+            const desc = document.getElementById('form-desc').value;
+
+            if (editId) {
+                const p = products.find(item => item.id == editId);
+                if (p) {
+                    p.name = name;
+                    p.price = price;
+                    p.image = image;
+                    p.desc = desc;
+                }
+            } else {
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({
+                    id: newId,
+                    name,
+                    price,
+                    image,
+                    desc,
+                    views: 0,
+                    ratings: 0
+                });
+            }
+
+            saveData();
+            closeAdminModal();
+            renderProducts();
+            renderAdminTable();
+        }
+
+        function exportProducts() {
+            const txt = JSON.stringify(products.map(({ id, name, price, image, desc }) => ({ id, name, price, image, desc })), null, 4);
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(txt).then(() => alert('Đã sao chép danh sách sản phẩm. Dán vào mảng "products" trong file mam.html để mọi khách cùng thấy.'), () => prompt('Sao chép danh sách sản phẩm:', txt));
+            } else {
+                prompt('Sao chép danh sách sản phẩm:', txt);
+            }
+        }
+
+        function resetProducts() {
+            if (!confirm('Xóa mọi chỉnh sửa sản phẩm trên máy này và quay về danh sách trong file?')) return;
+            try { localStorage.removeItem('mam_products'); } catch (err) {}
+            location.reload();
+        }
+
+        function deleteProduct(id) {
+            if (!confirm('Xóa sản phẩm này?')) return;
+            products = products.filter(p => p.id !== id);
+            saveData();
+            renderProducts();
+            renderAdminTable();
+        }
+
+
+        // --- COMMUNITY FEED LOGIC ---
+        function renderCommunityFeed() {
+            const feed = document.getElementById('community-feed');
+            feed.innerHTML = "";
+
+            posts.forEach(post => {
+                feed.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-kraft-border overflow-hidden vintage-shadow flex flex-col justify-between paper-texture">
+                        <div class="p-6 space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="${esc(post.avatar)}" class="w-10 h-10 rounded-full object-cover border border-kraft-border">
+                                <div>
+                                    <h4 class="font-bold text-sm text-gray-900">${esc(post.author)}</h4>
+                                    <span class="text-[11px] text-gray-500">Cộng đồng MẦM</span>
+                                </div>
+                            </div>
+                            <span class="inline-block bg-forest-50 text-forest-800 text-xs px-3 py-1 rounded-full font-semibold border border-forest-600/20">
+                                ${esc(post.stage)}
+                            </span>
+                            <div class="rounded-2xl overflow-hidden h-64 bg-gray-100 border border-kraft-border">
+                                <img src="${esc(post.image)}" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-800 leading-relaxed font-medium">${esc(post.caption)}</p>
+                            <div class="bg-kraft p-3 rounded-2xl border border-kraft-border text-xs font-serif italic text-forest-900">
+                                "${esc(post.poem)}"
+                            </div>
+                        </div>
+
+                        <div class="p-6 pt-0">
+                            <div class="flex items-center justify-between border-t border-kraft-border pt-4 text-xs text-gray-600">
+                                <button onclick="likePost(${post.id})" class="flex items-center space-x-1.5 text-red-600 hover:scale-105 transition-all">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span class="font-semibold">${post.likes} Yêu thích</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function likePost(id) {
+            const p = posts.find(item => item.id === id);
+            if (p) {
+                p.likes += 1;
+                saveData();
+                renderCommunityFeed();
+            }
+        }
+
+        function openPostModal() {
+            if (!customerUser) {
+                openCustomerLoginModal(openPostModal);
+                return;
+            }
+            document.getElementById('post-modal').classList.remove('hidden');
+            document.getElementById('post-modal').classList.add('flex');
+        }
+
+        function closePostModal() {
+            document.getElementById('post-modal').classList.remove('flex');
+            document.getElementById('post-modal').classList.add('hidden');
+        }
+
+        function resizeImage(file, maxSide = 800) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = reject;
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onerror = reject;
+                    img.onload = () => {
+                        const ratio = Math.min(1, maxSide / Math.max(img.width, img.height));
+                        const c = document.createElement('canvas');
+                        c.width = Math.round(img.width * ratio);
+                        c.height = Math.round(img.height * ratio);
+                        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                        resolve(c.toDataURL('image/jpeg', 0.75));
+                    };
+                    img.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handlePostSubmit(e) {
+            e.preventDefault();
+            const postForm = e.target;
+            const stageSelect = document.getElementById('post-stage');
+            const stageText = stageSelect.options[stageSelect.selectedIndex].text;
+            const stageKey = stageSelect.value;
+            const file = document.getElementById('post-file').files[0];
+            let image = document.getElementById('post-image').value.trim();
+            if (file) {
+                try { image = await resizeImage(file); }
+                catch (err) { alert('Không đọc được ảnh này, vui lòng chọn ảnh khác.'); return; }
+            }
+            if (!image) { alert('Vui lòng chọn ảnh từ máy hoặc dán link ảnh.'); return; }
+            const caption = document.getElementById('post-caption').value;
+
+            let poems = {
+                "stage-1": [
+                    "Vùi chút chân tình vào lòng đất ấm... Giống như những khởi đầu chân thành, tình cảm cần thời gian bén rễ sâu.",
+                    "Xé nhỏ tấm thiệp chứa hạt giống đặt lên viên nén xơ dừa mềm mại. Bắt đầu hành trình xanh!",
+                    "Một lời chúc hóa thành hạt giống, nằm yên trong tay bạn chờ ngày thức dậy.",
+                    "Gieo hạt hôm nay, gieo cả điều tử tế. Mùa xanh rồi sẽ tự biết đường tới."
+                ],
+                "stage-2": [
+                    "Tưới nước và giữ ẩm đều đặn trên xơ dừa... Chờ đón những chiếc mầm nhỏ đầu tiên thức giấc.",
+                    "Đất ẩm men theo từng thớ xơ dừa, ươm mầm hy vọng cho ngày mới.",
+                    "Hạt nứt vỏ trong thinh lặng — có những điều đẹp nhất bắt đầu mà không cần tiếng động.",
+                    "Một mầm xanh bé xíu ló lên, như lời cảm ơn đã được ai đó yêu thương."
+                ],
+                "stage-3": [
+                    "Sự sống đã vươn lên mạnh mẽ dưới ánh mặt trời. Lời tri ân ngày nào giờ đã hóa thành một chòm lá xanh tươi.",
+                    "Mầm nhỏ đã vươn lá đón nắng mai, minh chứng cho tình cảm bền chặt.",
+                    "Từng chiếc lá mở ra như một lời hồi đáp: yêu thương gửi đi rồi sẽ nở thành xanh.",
+                    "Cây đã lớn, và lời chúc năm nào vẫn đang xanh ngay trước mắt bạn."
+                ]
+            };
+            const stagePoems = poems[stageKey] || poems["stage-1"];
+            const randomPoem = stagePoems[Math.floor(Math.random() * stagePoems.length)];
+
+            posts.unshift({
+                id: Date.now(),
+                author: customerUser.name,
+                avatar: customerUser.avatar,
+                stage: stageText,
+                stageKey: stageKey,
+                image: image,
+                caption: caption,
+                poem: randomPoem,
+                likes: 1
+            });
+
+            saveData();
+            postForm.reset();
+            closePostModal();
+            renderCommunityFeed();
+            switchTab('community');
+        }
+
+
+        // --- CART & ORDERS (gửi về Google Sheets + email qua Apps Script) ---
+        let cart = [];
+        try { cart = JSON.parse(localStorage.getItem('mam_cart') || '[]'); } catch (err) { cart = []; }
+
+        function priceToNumber(str) { return parseInt(String(str).replace(/\D/g, ''), 10) || 0; }
+        function formatVND(n) { return n.toLocaleString('vi-VN') + 'đ'; }
+        function saveCart() { try { localStorage.setItem('mam_cart', JSON.stringify(cart)); } catch (err) {} }
+
+        let directBuy = null; // {id, qty} khi khách bấm "Mua ngay" (không đụng tới giỏ hàng)
+
+        function cartLines() {
+            if (directBuy) {
+                const dp = products.find(p => p.id === directBuy.id);
+                return dp ? [{ product: dp, qty: directBuy.qty }] : [];
+            }
+            // bỏ các sản phẩm đã bị xóa khỏi cửa hàng
+            cart = cart.filter(c => products.some(p => p.id === c.id));
+            return cart.map(c => ({ product: products.find(p => p.id === c.id), qty: c.qty }));
+        }
+
+        function buyNow(id) {
+            directBuy = { id, qty: 1 };
+            renderCart();
+            const m = document.getElementById('cart-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function updateCartBadge() {
+            const n = cart.filter(c => products.some(p => p.id === c.id)).reduce((sum, c) => sum + c.qty, 0);
+            const b = document.getElementById('cart-count');
+            b.innerText = n;
+            b.classList.toggle('hidden', n === 0);
+            b.classList.toggle('flex', n > 0);
+        }
+
+        function addToCart(id) {
+            const item = cart.find(c => c.id === id);
+            if (item) item.qty = Math.min(item.qty + 1, 99); else cart.push({ id, qty: 1 });
+            saveCart();
+            updateCartBadge();
+            openCart();
+        }
+
+        function changeQty(id, delta) {
+            if (directBuy) {
+                directBuy.qty = Math.min(99, Math.max(1, directBuy.qty + delta));
+                renderCart();
+                return;
+            }
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+            saveCart();
+            renderCart();
+        }
+
+        function openCart() {
+            directBuy = null;
+            renderCart();
+            const m = document.getElementById('cart-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeCart() {
+            directBuy = null;
+            stopPaymentPolling();
+            const m = document.getElementById('cart-modal');
+            m.classList.remove('flex');
+            m.classList.add('hidden');
+        }
+
+        function renderCart() {
+            document.getElementById('cart-title').innerText = directBuy ? 'Mua Ngay' : 'Giỏ Hàng Của Bạn';
+            const lines = cartLines();
+            const box = document.getElementById('cart-items');
+            const checkout = document.getElementById('cart-checkout');
+            updateCartBadge();
+            if (lines.length === 0) {
+                box.innerHTML = '<p class="text-sm text-gray-600 py-6 text-center">Giỏ hàng đang trống. Hãy chọn một sản phẩm nhé 🌱</p>';
+                checkout.classList.add('hidden');
+                return;
+            }
+            box.innerHTML = lines.map(l => `
+                <div class="flex items-center space-x-3 bg-kraft p-3 rounded-2xl border border-kraft-border">
+                    <img src="${esc(l.product.image)}" class="w-14 h-14 rounded-xl object-cover" alt="">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-900 truncate">${esc(l.product.name)}</p>
+                        <p class="text-xs text-amber-800 font-semibold">${esc(l.product.price)}</p>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm">
+                        <button onclick="changeQty(${l.product.id}, -1)" class="w-7 h-7 rounded-full bg-white border border-kraft-border hover:bg-gray-50">−</button>
+                        <span class="w-5 text-center font-semibold">${l.qty}</span>
+                        <button onclick="changeQty(${l.product.id}, 1)" class="w-7 h-7 rounded-full bg-white border border-kraft-border hover:bg-gray-50">+</button>
+                    </div>
+                </div>`).join('');
+            const total = lines.reduce((sum, l) => sum + priceToNumber(l.product.price) * l.qty, 0);
+            document.getElementById('cart-total').innerText = formatVND(total);
+            checkout.classList.remove('hidden');
+        }
+
+        // --- VietQR: tạo nội dung mã QR chuyển khoản chuẩn (EMVCo / NAPAS 247) ---
+        function crc16(str) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < str.length; i++) {
+                crc ^= str.charCodeAt(i) << 8;
+                for (let k = 0; k < 8; k++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+            }
+            return crc.toString(16).toUpperCase().padStart(4, '0');
+        }
+        function tlv(id, val) { return id + String(val.length).padStart(2, '0') + val; }
+        function buildVietQR(bin, account, amount, content) {
+            const merchant = tlv('00', 'A000000727') + tlv('01', tlv('00', bin) + tlv('01', account)) + tlv('02', 'QRIBFTTA');
+            let payload = tlv('00', '01') + tlv('01', amount > 0 ? '12' : '11') + tlv('38', merchant) + tlv('53', '704');
+            if (amount > 0) payload += tlv('54', String(amount));
+            payload += tlv('58', 'VN') + tlv('62', tlv('08', content)) + '6304';
+            return payload + crc16(payload);
+        }
+        function bankConfigured() { return !!(CONFIG.BANK_BIN && CONFIG.BANK_ACCOUNT); }
+
+        function orderToText(o) {
+            const items = o.items.map(i => `- ${i.name} x${i.qty} (${i.price})`).join('\n');
+            return `Mã đơn: ${o.orderId}\nKhách: ${o.name}\nSĐT: ${o.phone}\nEmail: ${o.email || '-'}\nĐịa chỉ: ${o.address}\n\nSản phẩm:\n${items}\n\nTổng: ${o.total}\nThanh toán: ${o.payment}\nGhi chú: ${o.note || '-'}\nThời gian: ${o.time}`;
+        }
+
+        function showOrderSuccess(order, mailtoLink) {
+            let html = `
+                <div class="text-center py-4 space-y-2">
+                    <div class="text-4xl">🌱</div>
+                    <p class="font-serif text-xl font-bold text-forest-900">Đặt hàng thành công!</p>
+                    <p class="text-sm text-gray-600">Mã đơn của bạn: <strong>${esc(order.orderId)}</strong>.<br>Cảm ơn ${esc(order.name)}, shop sẽ liên hệ qua số ${esc(order.phone)} để xác nhận đơn.</p>
+                </div>`;
+            if (mailtoLink) {
+                html += `<div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-900 text-center space-y-2">
+                    <p>Email đơn hàng đã được mở sẵn. <strong>Hãy bấm "Gửi" trong ứng dụng email</strong> để shop nhận được đơn.</p>
+                    <a href="${esc(mailtoLink)}" class="inline-block bg-forest-800 text-white px-4 py-2 rounded-full font-semibold">Mở lại email</a>
+                </div>`;
+            }
+            if (order.payment === 'Chuyển khoản') {
+                if (bankConfigured()) {
+                    html += `<div class="bg-white border border-kraft-border rounded-2xl p-4 text-center space-y-2">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-forest-800">Quét mã để chuyển khoản</p>
+                        <canvas id="pay-qr-canvas" class="mx-auto" style="width:240px;height:240px;image-rendering:pixelated"></canvas>
+                        <div class="text-xs text-gray-700 space-y-0.5">
+                            ${CONFIG.BANK_NAME ? `<p>Chủ tài khoản: <strong>${esc(CONFIG.BANK_NAME)}</strong></p>` : ''}
+                            <p>Số tài khoản: <strong>${esc(CONFIG.BANK_ACCOUNT)}</strong></p>
+                            <p>Số tiền: <strong>${esc(order.total)}</strong></p>
+                            <p>Nội dung: <strong>${esc(order.payCode)}</strong></p>
+                        </div>
+                        <p class="text-[11px] text-gray-500">Mở app ngân hàng, chọn quét QR. Số tiền và nội dung được điền sẵn.</p>
+                        <p id="pay-status" class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-xl py-2 px-3">${CONFIG.ORDER_ENDPOINT ? '⏳ Đang chờ nhận tiền — trang sẽ tự cập nhật khi chuyển khoản thành công.' : 'Sau khi chuyển khoản, shop sẽ xác nhận với bạn qua điện thoại.'}</p>
+                    </div>`;
+                } else {
+                    html += `<p class="text-xs text-gray-600 text-center">Shop sẽ gửi thông tin tài khoản chuyển khoản cho bạn qua điện thoại hoặc email.</p>`;
+                }
+            }
+            document.getElementById('cart-items').innerHTML = html;
+            document.getElementById('cart-checkout').classList.add('hidden');
+            if (order.payment === 'Chuyển khoản' && bankConfigured()) {
+                const content = order.payCode;
+                QR.draw(document.getElementById('pay-qr-canvas'),
+                    buildVietQR(CONFIG.BANK_BIN, CONFIG.BANK_ACCOUNT, order.totalNumber, content), { ecl: 'M', size: 480 });
+                startPaymentPolling(order);
+            }
+        }
+
+        // Tự kiểm tra trạng thái thanh toán mỗi 5 giây (tối đa 15 phút) khi đã nối với Apps Script
+        let payTimer = null;
+        function stopPaymentPolling() { if (payTimer) { clearInterval(payTimer); payTimer = null; } }
+        function startPaymentPolling(order) {
+            stopPaymentPolling();
+            if (!CONFIG.ORDER_ENDPOINT) return;
+            let tries = 0;
+            payTimer = setInterval(async () => {
+                const el = document.getElementById('pay-status');
+                if (!el || ++tries > 180) { stopPaymentPolling(); return; }
+                try {
+                    const r = await fetch(CONFIG.ORDER_ENDPOINT + '?action=status&id=' + encodeURIComponent(order.orderId));
+                    const d = await r.json();
+                    if (d.paid) {
+                        el.className = 'text-sm font-bold text-green-800 bg-green-50 border border-green-300 rounded-xl py-3 px-3';
+                        el.innerHTML = '✅ Đã nhận được thanh toán ' + esc(order.total) + '. Cảm ơn bạn!';
+                        stopPaymentPolling();
+                    }
+                } catch (err) { /* chưa có kết quả, thử lại lần sau */ }
+            }, 5000);
+        }
+
+        // --- MÃ ĐƠN HÀNG & KHO ĐƠN (localStorage) ---
+        function genOrderId() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            const year = new Date().getFullYear();
+            let id;
+            do {
+                const r = new Uint32Array(4);
+                (window.crypto || {}).getRandomValues ? crypto.getRandomValues(r) : r.forEach((_, i) => r[i] = Math.floor(Math.random() * 4294967296));
+                id = 'MAM-' + year + '-' + Array.from(r).map(n => chars[n % chars.length]).join('');
+            } while (orders.some(o => o.orderId === id));
+            return id;
+        }
+
+        function saveOrderLocal(order) {
+            orders.unshift({ ...order, status: order.payment === 'Chuyển khoản' ? 'Chờ thanh toán' : 'Mới (COD)' });
+            saveData();
+            renderAdminOrders();
+        }
+
+        const ORDER_STATUSES = ['Mới (COD)', 'Chờ thanh toán', 'Đã thanh toán', 'Đã xác nhận', 'Đang giao', 'Hoàn thành', 'Đã hủy'];
+
+        function renderAdminOrders() {
+            const tbody = document.getElementById('admin-order-table');
+            if (!tbody) return;
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-sm text-gray-500">Chưa có đơn hàng nào. Đơn mới sẽ hiện ở đây ngay khi khách đặt.</td></tr>';
+            } else {
+                tbody.innerHTML = orders.map(o => `
+                    <tr class="align-top hover:bg-kraft-light/50 transition-all">
+                        <td class="p-4">
+                            <p class="font-mono font-bold text-forest-900 text-xs">${esc(o.orderId)}</p>
+                            <p class="text-[11px] text-gray-500 mt-1">${esc(o.time)}</p>
+                        </td>
+                        <td class="p-4 text-xs">
+                            <p class="font-semibold text-gray-900">${esc(o.name)}</p>
+                            <a href="tel:${esc(o.phone)}" class="text-forest-800 underline">${esc(o.phone)}</a>
+                            <p class="text-gray-600 mt-1 max-w-[200px]">${esc(o.address)}</p>
+                            ${o.note ? `<p class="text-[11px] text-amber-800 mt-1 italic">“${esc(o.note)}”</p>` : ''}
+                        </td>
+                        <td class="p-4 text-xs text-gray-700">${o.items.map(i => `<p>${esc(i.name)} <strong>x${esc(i.qty)}</strong></p>`).join('')}</td>
+                        <td class="p-4 text-xs">
+                            <p class="font-bold text-forest-900 text-sm">${esc(o.total)}</p>
+                            <p class="text-gray-600">${esc(o.payment)}</p>
+                        </td>
+                        <td class="p-4">
+                            <select onchange="updateOrderStatus('${esc(o.orderId)}', this.value)" class="text-xs px-2 py-1.5 rounded-lg border border-kraft-border bg-kraft-light">
+                                ${ORDER_STATUSES.map(st => `<option ${st === o.status ? 'selected' : ''}>${st}</option>`).join('')}
+                            </select>
+                        </td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteOrder('${esc(o.orderId)}')" class="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs transition-all" title="Xóa đơn"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`).join('');
+            }
+            const active = orders.filter(o => o.status !== 'Đã hủy');
+            const revenue = active.reduce((sum, o) => sum + (o.totalNumber || 0), 0);
+            const el1 = document.getElementById('admin-total-orders');
+            const el2 = document.getElementById('admin-revenue');
+            if (el1) el1.innerText = orders.length;
+            if (el2) el2.innerText = formatVND(revenue);
+        }
+
+        function updateOrderStatus(id, status) {
+            const o = orders.find(x => x.orderId === id);
+            if (o) { o.status = status; saveData(); renderAdminOrders(); }
+        }
+
+        function deleteOrder(id) {
+            if (!confirm('Xóa đơn hàng ' + id + '?')) return;
+            orders = orders.filter(o => o.orderId !== id);
+            saveData();
+            renderAdminOrders();
+        }
+
+        async function submitOrder(e) {
+            e.preventDefault();
+            const err = document.getElementById('order-error');
+            const btn = document.getElementById('order-submit');
+            err.classList.add('hidden');
+
+            if (document.getElementById('order-website').value) return; // bot
+            const lines = cartLines();
+            if (lines.length === 0) return;
+
+            const phone = document.getElementById('order-phone').value.replace(/[\s.\-]/g, '');
+            if (!/^(0|\+84)\d{9,10}$/.test(phone)) {
+                err.innerText = 'Số điện thoại chưa hợp lệ, vui lòng kiểm tra lại.';
+                err.classList.remove('hidden');
+                return;
+            }
+
+            const totalNumber = lines.reduce((sum, l) => sum + priceToNumber(l.product.price) * l.qty, 0);
+            const orderId = genOrderId();
+            const order = {
+                orderId,
+                payCode: orderId.replace(/-/g, ''),   // nội dung chuyển khoản (ngân hàng không nhận dấu gạch)
+                time: new Date().toLocaleString('vi-VN'),
+                name: document.getElementById('order-name').value.trim(),
+                phone,
+                email: document.getElementById('order-email').value.trim(),
+                address: document.getElementById('order-address').value.trim(),
+                note: document.getElementById('order-note').value.trim(),
+                payment: document.getElementById('order-payment').value,
+                items: lines.map(l => ({ name: l.product.name, price: l.product.price, qty: l.qty })),
+                total: formatVND(totalNumber),
+                totalNumber
+            };
+
+            btn.disabled = true;
+            btn.innerText = 'Đang gửi đơn...';
+            try {
+                // 1) Luôn lưu đơn vào hệ thống quản trị (localStorage)
+                saveOrderLocal(order);
+
+                // 2) Gửi thêm ra ngoài nếu shop đã cấu hình
+                let mailtoLink = null;
+                if (CONFIG.ORDER_ENDPOINT) {
+                    try {
+                        await fetch(CONFIG.ORDER_ENDPOINT, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                            body: JSON.stringify(order)
+                        });
+                    } catch (ex) { /* đơn vẫn đã lưu trong hệ thống quản trị */ }
+                } else if (CONFIG.SHOP_EMAIL) {
+                    mailtoLink = 'mailto:' + encodeURIComponent(CONFIG.SHOP_EMAIL) +
+                        '?subject=' + encodeURIComponent('Đơn hàng mới ' + order.orderId + ' - ' + order.total) +
+                        '&body=' + encodeURIComponent(orderToText(order));
+                    window.location.href = mailtoLink;
+                }
+
+                if (directBuy) directBuy = null; else { cart = []; saveCart(); }
+                updateCartBadge();
+                document.getElementById('cart-checkout').querySelector('form').reset();
+                showOrderSuccess(order, mailtoLink);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Đặt Hàng';
+            }
+        }
+
+
+        // --- GIFT & QR CREATOR LOGIC ---
+        let currentGiftLink = "";
+
+        function b64urlEncode(str) {
+            const bytes = new TextEncoder().encode(str);
+            let bin = "";
+            bytes.forEach(b => bin += String.fromCharCode(b));
+            return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        }
+        function b64urlDecode(tok) {
+            const b64 = tok.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((tok.length + 3) % 4);
+            const bin = atob(b64);
+            return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+        }
+        function siteBaseUrl() {
+            if (CONFIG.SITE_URL) return CONFIG.SITE_URL.split('#')[0];
+            return location.href.split('#')[0];
+        }
+
+        function fillReceiverView(g) {
+            document.getElementById('preview-occasion').innerText = g.o;
+            document.getElementById('preview-receiver').innerText = g.r;
+            document.getElementById('preview-message').innerText = `"${g.m}"`;
+            document.getElementById('preview-sender').innerText = g.s;
+        }
+
+        function generateQRCodeGift() {
+            const g = {
+                r: document.getElementById('gift-receiver').value.trim() || "Người nhận thân yêu",
+                o: document.getElementById('gift-occasion').value,
+                m: document.getElementById('gift-message').value.trim() || "Cảm ơn bạn vì tất cả!",
+                s: document.getElementById('gift-sender').value.trim() || "Người gửi"
+            };
+            fillReceiverView(g);
+            currentGiftLink = siteBaseUrl() + '#g.' + b64urlEncode(JSON.stringify(g));
+
+            const note = document.getElementById('gift-qr-note');
+            note.classList.add('hidden');
+            try {
+                QR.draw(document.getElementById('gift-qr-canvas'), currentGiftLink, { ecl: 'L', size: 480 });
+            } catch (err) {
+                note.innerText = 'Lời chúc quá dài để tạo mã QR, vui lòng rút ngắn lại.';
+                note.classList.remove('hidden');
+            }
+            if (!CONFIG.SITE_URL && !/^https?:/.test(location.href)) {
+                note.innerText = 'Lưu ý: bạn đang mở trang từ máy tính nên mã QR chỉ có tác dụng sau khi trang được đăng lên web (điền SITE_URL trong phần cấu hình).';
+                note.classList.remove('hidden');
+            }
+            document.getElementById('gift-result-card').classList.remove('hidden');
+            document.getElementById('gift-result-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadGiftQR() {
+            const canvas = document.getElementById('gift-qr-canvas');
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL('image/png');
+            a.download = 'qr-qua-tang-mam.png';
+            a.click();
+        }
+
+        // Mở thiệp số khi người nhận quét mã QR (đường dẫn dạng #g.xxxx)
+        function openGiftFromHash() {
+            const h = location.hash.slice(1);
+            if (!h.startsWith('g.')) return;
+            try {
+                const g = JSON.parse(b64urlDecode(h.slice(2)));
+                if (!g || typeof g.m !== 'string') return;
+                fillReceiverView({ o: String(g.o || ''), r: String(g.r || ''), m: String(g.m || ''), s: String(g.s || '') });
+                previewReceiverView();
+            } catch (err) { /* liên kết không hợp lệ: bỏ qua */ }
+        }
+        window.addEventListener('hashchange', openGiftFromHash);
+
+        function previewReceiverView() {
+            document.getElementById('receiver-modal').classList.remove('hidden');
+            document.getElementById('receiver-modal').classList.add('flex');
+        }
+
+        function closeReceiverModal() {
+            document.getElementById('receiver-modal').classList.remove('flex');
+            document.getElementById('receiver-modal').classList.add('hidden');
+        }
+
+        function copyGiftLink() {
+            if (!currentGiftLink) return;
+            const done = () => alert("Đã sao chép liên kết quà tặng!");
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(currentGiftLink).then(done, () => prompt("Sao chép liên kết:", currentGiftLink));
+            } else {
+                prompt("Sao chép liên kết:", currentGiftLink);
+            }
+        }
+    </script>
+</body>
+</html>
