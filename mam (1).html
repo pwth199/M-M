@@ -290,6 +290,9 @@
                     <p class="text-xs text-gray-600">Quản lý sản phẩm, đơn hàng, hồ sơ khách hàng, logo thương hiệu và thiết lập VietQR.</p>
                 </div>
                 <div class="flex items-center space-x-3">
+                    <button type="button" onclick="syncToCloud(true, true)" class="bg-sky-700 hover:bg-sky-800 text-white px-4 py-2.5 rounded-xl font-semibold text-xs shadow-md transition-all flex items-center gap-1.5" title="Đồng bộ thủ công toàn bộ dữ liệu lên Google Cloud cho mọi khách hàng">
+                        <i class="fa-solid fa-cloud-arrow-up text-sm"></i> ☁️ Đồng Bộ Cloud
+                    </button>
                     <button type="button" onclick="exportStandaloneHTML()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2.5 rounded-xl font-semibold text-xs shadow-md transition-all flex items-center gap-1.5" title="Xuất file HTML đã cập nhật đầy đủ dữ liệu mới để gửi qua Zalo hoặc lưu trữ">
                         <i class="fa-solid fa-cloud-arrow-down text-sm"></i> 💾 Tải File Web Đã Lưu (Gửi Zalo)
                     </button>
@@ -1707,6 +1710,9 @@
             renderCategoryPills();
             renderCategorySelect();
             renderFooterCategories();
+            if (typeof syncToCloud === 'function') {
+                syncToCloud(true);
+            }
         }
 
         function renderCategoryPills() {
@@ -2004,6 +2010,9 @@
                 localStorage.setItem('mam_site_content', JSON.stringify(SITE_CONTENT));
             } catch (e) {}
             applySiteContent();
+            if (typeof syncToCloud === 'function') {
+                syncToCloud(true);
+            }
         }
 
         function applySiteContent() {
@@ -2171,6 +2180,9 @@
                 localStorage.setItem('mam_brand', JSON.stringify(BRAND));
             } catch (e) {}
             applyBrand();
+            if (typeof syncToCloud === 'function') {
+                syncToCloud(true);
+            }
         }
 
         function applyBrand() {
@@ -2229,8 +2241,9 @@
         // =====================================================================
         // 2. CẤU HÌNH NGÂN HÀNG & VIETQR (Có thể chỉnh sửa trong Admin)
         // =====================================================================
+        const DEFAULT_ORDER_ENDPOINT = "https://script.google.com/macros/s/AKfycbwXh4Bhl2RwNeHzyLq2axEiPOoQQrqInGGzRrhZUjofjjzycWGdSng02wsy-kWmb3WqSg/exec";
         const CONFIG = {
-            ORDER_ENDPOINT: "",
+            ORDER_ENDPOINT: "https://script.google.com/macros/s/AKfycbwXh4Bhl2RwNeHzyLq2axEiPOoQQrqInGGzRrhZUjofjjzycWGdSng02wsy-kWmb3WqSg/exec",
             SHOP_EMAIL: "",
             SITE_URL: "",
             BANK_BIN: "",
@@ -2245,12 +2258,120 @@
                 const saved = localStorage.getItem('mam_config');
                 if (saved) Object.assign(CONFIG, JSON.parse(saved));
             } catch (err) {}
+            // Luôn ưu tiên dùng URL Cloud này nếu trong localStorage chưa có hoặc để trống
+            if (!CONFIG.ORDER_ENDPOINT || !CONFIG.ORDER_ENDPOINT.trim()) {
+                CONFIG.ORDER_ENDPOINT = DEFAULT_ORDER_ENDPOINT;
+            }
         }
 
         function saveConfig() {
             try {
                 localStorage.setItem('mam_config', JSON.stringify(CONFIG));
             } catch (err) {}
+        }
+
+        // --- CLOUD SYNC (GOOGLE APPS SCRIPT) ---
+        let syncCloudTimer = null;
+        async function syncToCloud(showToast = true, immediate = false) {
+            const endpoint = (CONFIG.ORDER_ENDPOINT && CONFIG.ORDER_ENDPOINT.trim()) || DEFAULT_ORDER_ENDPOINT;
+            if (!endpoint) return;
+
+            const executeSync = async () => {
+                try {
+                    const payload = {
+                        action: 'sync_store',
+                        products: products,
+                        categories: categories,
+                        brand: BRAND,
+                        siteContent: SITE_CONTENT,
+                        posts: posts
+                    };
+
+                    await fetch(endpoint, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (showToast) {
+                        showNotification("☁️ Đã đồng bộ sản phẩm lên hệ thống cho mọi khách hàng!");
+                    }
+                    console.log("☁️ Đồng bộ đám mây hoàn tất.");
+                } catch (err) {
+                    console.warn("Lỗi khi đồng bộ đám mây:", err);
+                }
+            };
+
+            if (immediate) {
+                clearTimeout(syncCloudTimer);
+                return executeSync();
+            }
+
+            clearTimeout(syncCloudTimer);
+            syncCloudTimer = setTimeout(executeSync, 300);
+        }
+
+        async function loadFromCloud() {
+            const endpoint = (CONFIG.ORDER_ENDPOINT && CONFIG.ORDER_ENDPOINT.trim()) || DEFAULT_ORDER_ENDPOINT;
+            if (!endpoint) return;
+
+            try {
+                console.log("☁️ Đang kết nối tải dữ liệu từ Cloud (Google Apps Script)...");
+                const res = await fetch(endpoint);
+                if (!res.ok) {
+                    console.warn("Cloud endpoint trả về HTTP " + res.status);
+                    return;
+                }
+                const data = await res.json();
+                if (!data || typeof data !== 'object') return;
+
+                let hasUpdates = false;
+
+                if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+                    products = data.products;
+                    try { localStorage.setItem('mam_products', JSON.stringify(products)); } catch (e) {}
+                    hasUpdates = true;
+                }
+
+                if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {
+                    categories = data.categories;
+                    try { localStorage.setItem('mam_categories', JSON.stringify(categories)); } catch (e) {}
+                    hasUpdates = true;
+                }
+
+                if (data.brand && typeof data.brand === 'object' && Object.keys(data.brand).length > 0) {
+                    BRAND = Object.assign(BRAND, data.brand);
+                    try { localStorage.setItem('mam_brand', JSON.stringify(BRAND)); } catch (e) {}
+                    hasUpdates = true;
+                }
+
+                if (data.siteContent && typeof data.siteContent === 'object' && Object.keys(data.siteContent).length > 0) {
+                    SITE_CONTENT = Object.assign(SITE_CONTENT, data.siteContent);
+                    try { localStorage.setItem('mam_site_content', JSON.stringify(SITE_CONTENT)); } catch (e) {}
+                    hasUpdates = true;
+                }
+
+                if (data.posts && Array.isArray(data.posts) && data.posts.length > 0) {
+                    posts = data.posts;
+                    try { localStorage.setItem('mam_posts', JSON.stringify(posts)); } catch (e) {}
+                    hasUpdates = true;
+                }
+
+                if (hasUpdates) {
+                    console.log("☁️ Dữ liệu từ Cloud đã được nạp thành công!");
+                    try { applyBrand(); } catch (e) {}
+                    try { applySiteContent(); } catch (e) {}
+                    try { renderCategoryPills(); } catch (e) {}
+                    try { renderProducts(); } catch (e) {}
+                    try { renderAdminTable(); } catch (e) {}
+                    try { renderCommunityFeed(); } catch (e) {}
+                }
+            } catch (err) {
+                console.warn("Không thể tải dữ liệu từ Cloud (sử dụng dữ liệu offline):", err);
+            }
         }
 
         const VIETNAM_BANKS = [
@@ -2601,6 +2722,9 @@ const QR = (function () {
             } catch (err) {
                 if (err && err.name === 'QuotaExceededError') alert('Bộ nhớ trình duyệt đã đầy. Hãy xóa bớt bài đăng có ảnh hoặc đơn hàng cũ.');
             }
+            if (typeof syncToCloud === 'function' && isAdminLoggedIn) {
+                syncToCloud(true);
+            }
         }
 
         function loadData() {
@@ -2642,6 +2766,7 @@ const QR = (function () {
             try { loadConfig(); } catch (e) { console.error('loadConfig:', e); }
             try { loadData(); } catch (e) { console.error('loadData:', e); }
             try { syncCustomersFromOrders(); } catch (e) { console.error('syncCustomersFromOrders:', e); }
+            try { loadFromCloud(); } catch (e) { console.error('loadFromCloud:', e); }
             
             window.addEventListener('storage', (ev) => {
                 if (ev.key === 'mam_orders') { 
